@@ -1,0 +1,138 @@
+@import "prism-config";
+
+@mixin prism-clip-path($clip) {
+    -webkit-clip-path: $clip;
+    clip-path: $clip;
+}
+
+@mixin prism-box($depth, $sh_depth, $length) {
+    $depth: min(9, max(1, $depth));
+    $sh_depth: min(9, max(1, $sh_depth));
+    $bg_color: nth($prism_bg_list, $depth);
+    $sh_color: nth($prism_sh_list, $sh_depth);
+    $tx_color: nth($prism_tx_list, $depth);
+    background-color: $bg_color;
+    box-shadow: $length $length 0 $sh_color;
+    color: $tx_color;
+    @supports  (-webkit-clip-path: polygon(0 0)) or (clip-path: polygon(0 0)) {
+        box-shadow: none;
+        &:after {
+            width: calc(100% + #{$length});
+            height: calc(100% + #{$length});
+            background-color: $sh_color;
+            @include prism-clip-path(
+                polygon(0 calc(100% - #{$length}),
+                        $length 100%,
+                        100% 100%,
+                        100% $length,
+                        calc(100% - #{$length}) 0,
+                        calc(100% - #{$length}) calc(100% - #{$length})
+                )
+            );
+        }
+    }
+}
+
+@mixin prism-notch($depth, $length) {
+    $depth: min(9, max(1, $depth));
+    $bg_color: nth($prism_bg_list, $depth);
+    $sh_color: nth($prism_sh_list, $depth);
+    $tx_color: nth($prism_tx_list, $depth);
+    background-color: $bg_color;
+    box-shadow: inset $length $length 0 $sh_color;
+    color: $tx_color;
+}
+
+@mixin prism-recursive($depth, $nesting_level) {
+    .prism-box-lg,
+    .prism-active-box-lg:active,
+    .prism-focus-box-lg:focus,
+    .prism-hover-box-lg:hover {
+        @include prism-box($depth + 2, $depth, $prism_shadow_offset_lg);
+    }
+    .prism-box-sm,
+    .prism-active-box-sm:active,
+    .prism-focus-box-sm:focus,
+    .prism-hover-box-sm:hover {
+        @include prism-box($depth + 1, $depth, $prism_shadow_offset_sm);
+    }
+    .prism-blank,
+    .prism-active-blank:active,
+    .prism-focus-blank:focus,
+    .prism-hover-blank:hover {
+        @include prism-box($depth, $depth, 0px);
+        @include prism-notch($depth, 0px);
+    }
+    .prism-notch-sm,
+    .prism-active-notch-sm:active,
+    .prism-focus-notch-sm:focus,
+    .prism-hover-notch-sm:hover {
+        @include prism-notch($depth - 1, $prism_shadow_offset_sm);
+    }
+    .prism-notch-lg,
+    .prism-active-notch-lg:active,
+    .prism-focus-notch-lg:focus,
+    .prism-hover-notch-lg:hover {
+        @include prism-notch($depth - 2, $prism_shadow_offset_lg);
+    }
+    @if $nesting_level > 0 {
+        .prism-box-lg {
+            @include prism-recursive($depth + 2, $nesting_level - 1);
+        }
+        .prism-box-sm {
+            @include prism-recursive($depth + 1, $nesting_level - 1);
+        }
+        .prism-blank {
+            @include prism-recursive($depth, $nesting_level - 1);
+        }
+        .prism-notch-sm {
+            @include prism-recursive($depth - 1, $nesting_level - 1);
+        }
+        .prism-notch-lg {
+            @include prism-recursive($depth - 2, $nesting_level - 1);
+        }
+    }
+}
+
+.prism-#{$prism_base_suffix} {
+    background-color: nth($prism_bg_list, $prism_base_index);
+    color: nth($prism_tx_list, $prism_base_index);
+    @include prism-recursive($prism_base_index, $prism_max_nesting);
+
+    .prism-box-lg,
+    .prism-active-box-lg:active,
+    .prism-focus-box-lg:focus,
+    .prism-hover-box-lg:hover,
+    .prism-box-sm,
+    .prism-active-box-sm:active,
+    .prism-focus-box-sm:focus,
+    .prism-hover-box-sm:hover,
+    .prism-blank,
+    .prism-active-blank:active,
+    .prism-focus-blank:focus,
+    .prism-hover-blank:hover,
+    .prism-notch-sm,
+    .prism-active-notch-sm:active,
+    .prism-focus-notch-sm:focus,
+    .prism-hover-notch-sm:hover,
+    .prism-notch-lg,
+    .prism-active-notch-lg:active,
+    .prism-focus-notch-lg:focus,
+    .prism-hover-notch-lg:hover {
+        position: relative;
+        transition: background-color $prism_transition_duration,
+                    box-shadow $prism_transition_duration,
+                    color $prism_transition_duration;
+        &:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: -webkit-clip-path $prism_transition_duration,
+                        clip-path $prism_transition_duration,
+                        width $prism_transition_duration,
+                        height $prism_transition_duration,
+                        background-color $prism_transition_duration;
+        }
+    }
+}

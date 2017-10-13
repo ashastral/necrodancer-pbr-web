@@ -1,0 +1,52 @@
+// General configuration
+$prism_base_suffix: base;
+$prism_base_index: 5;
+$prism_max_nesting: 2;
+$prism_transition_duration: 0.2s;
+$prism_shadow_offset_lg: 8px;
+$prism_shadow_offset_sm: 4px;
+
+// Convenience color variables - not used directly by prism.scss
+$blue: #102c73;
+$red: #c5091f;
+$white: #FFFFFF;
+$black: #000000;
+
+$prism_bg_max: $white;
+$prism_bg_base: $blue;
+$prism_bg_min: $black;
+$prism_sh_max: mix(black, $prism_bg_max, 25%);
+$prism_sh_base: mix(black, $prism_bg_base, 25%);
+$prism_sh_min: mix(black, $prism_bg_min, 25%);
+
+// Color output
+$prism_bg_list:
+    $prism_bg_min
+    mix($prism_bg_min, $prism_bg_base, 75%)
+    mix($prism_bg_min, $prism_bg_base, 50%)
+    mix($prism_bg_min, $prism_bg_base, 25%)
+    $prism_bg_base
+    $red
+    $white
+    $white
+    $white;
+$prism_sh_list:
+    $prism_sh_min
+    mix($prism_sh_min, $prism_sh_base, 75%)
+    mix($prism_sh_min, $prism_sh_base, 50%)
+    mix($prism_sh_min, $prism_sh_base, 25%)
+    $prism_sh_base
+    mix($prism_sh_max, $prism_sh_base, 25%)
+    mix($prism_sh_max, $prism_sh_base, 50%)
+    mix($prism_sh_max, $prism_sh_base, 75%)
+    $prism_sh_max;
+$prism_tx_list:
+    $prism_bg_max
+    $prism_bg_max
+    $prism_bg_max
+    $prism_bg_max
+    $prism_bg_max
+    $prism_bg_max
+    $red
+    $red
+    $red;

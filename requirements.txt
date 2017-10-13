@@ -1,0 +1,8 @@
+Django==1.11
+gunicorn==19.7
+eventlet>=0.9.7
+psycopg2==2.7
+libsass==0.13
+django-compressor==2.1
+django-sass-processor==0.5
+git+git://github.com/fraxtil/necrodancer-pbr.git@master#egg=necrodancer-pbr

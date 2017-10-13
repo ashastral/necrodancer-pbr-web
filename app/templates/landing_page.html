@@ -1,0 +1,50 @@
+{% load static %}
+{% load sass_tags %}
+<!DOCTYPE html>
+<title>NecroDancer Pre-Built Racing mod generator</title>
+<meta charset="utf-8">
+
+<link href="{% sass_src 'prism/prism.scss' %}" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700" rel="stylesheet">
+<style type="text/css">
+body {
+    max-width: 960px;
+    margin: 0 auto;
+    background-color: #102c73;
+    color: white;
+    text-align: center;
+    font-family: "Roboto Slab";
+    font-size: 24px;
+}
+
+a {
+    color: #c4c4c4;
+}
+
+button, input {
+    padding: .5em;
+    margin-left: .5em;
+    font: inherit;
+    color: inherit;
+    border: none;
+    border-radius: 0;
+    -webkit-appearance: none;
+    outline: none;
+}
+</style>
+
+<h1>
+    <img src="{% static "logo-white.png" %}" alt="Crypt Pre-Built Racing Mod" />
+</h1>
+
+<form action="{% url 'api/generate' %}" method="POST" class="prism-base">
+    {% csrf_token %}
+    {{ generate_form }}
+    <button class="prism-box-lg prism-active-box-sm" type="submit">Generate and download</button>
+</form>
+
+<p>PBR is a mod generator for Crypt of the NecroDancer that takes a seed and produces a mod with unique starting items and a rebalanced item pool.</p>
+<p>
+    <a href="https://github.com/fraxtil/necrodancer-pbr">necrodancer-pbr on GitHub</a> (look here for rules and some basic meta!)<br/>
+    <a href="https://github.com/fraxtil/necrodancer-pbr-web">necrodancer-pbr-web on GitHub</a><br/>
+</p>
