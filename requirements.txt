@@ -5,4 +5,4 @@ psycopg2==2.7
 libsass==0.13
 django-compressor==2.1
 django-sass-processor==0.5
-git+git://github.com/ashastral/necrodancer-pbr.git@master#egg=necrodancer-pbr
+git+https://github.com/ashastral/necrodancer-pbr@master#egg=necrodancer-pbr
